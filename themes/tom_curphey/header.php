@@ -17,7 +17,18 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="profile" href="https://gmpg.org/xfn/11">
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-	<link href="https://fonts.googleapis.com/css?family=Iceberg|Montserrat:100,400" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Iceberg|Montserrat:100,200,400" rel="stylesheet">
+ 
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.3/photoswipe.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.3/default-skin/default-skin.css">
+
+	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.3/photoswipe.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.3/photoswipe-ui-default.js"></script>  -->
+
+
+
+
+
 	<?php wp_head(); ?>
 	<style>
 		div.video_link {
@@ -31,7 +42,7 @@
 	<nav>
 		<ul>
 			<li onclick="display_menu('left');"><i class="fas fa-bars"></i></li>
-			<li>Tom Curphey</li>
+			<li><a href="<?php echo home_url('/'); ?>">Tom Curphey</a></li>
 			<li onclick="display_menu('right');"><i class="fas fa-sort-amount-up"></i></li>
 		</ul>
 	</nav>

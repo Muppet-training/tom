@@ -4,8 +4,8 @@ Template Name: Homepage
 */
 get_header();
 ?>
-  <main id="main_body">
-    <section onclick="menuCheck();" class="header">
+  <main onclick="menuCheck();" id="main_body">
+    <section  class="header">
       <section class="title">
         <h1>Hi, I'm Tom Curphey</h1>
       </section>
@@ -170,6 +170,10 @@ get_header();
       <h3>Case Studies</h3>
       <div></div>
     </section>
+
+    <?php 
+     echo get_featured_case_studies();
+    ?>
   </main>
 <?php
 get_footer();

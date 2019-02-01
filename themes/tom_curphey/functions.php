@@ -135,9 +135,16 @@ add_action( 'widgets_init', 'tom_curphey_widgets_init' );
 // add_action( 'wp_enqueue_scripts', 'tom_curphey_enqueue' );
 
 function tom_curphey_js() {
+	wp_enqueue_style( 'default-skin', get_template_directory_uri() . '/photoswipe/default-skin/default-skin.css', array(), '', 'all' );
+  wp_enqueue_style( 'photoswipe', get_template_directory_uri() . '/photoswipe/photoswipe.css', array(), '', 'all' );
 	wp_enqueue_style( 'tom_curphey-style', get_stylesheet_uri() );
-	wp_register_script( 'tomjs', get_template_directory_uri() . '/js/tom.js', array(), NULL, false );
-	wp_enqueue_script( 'tomjs' );
+
+	
+	wp_enqueue_script( 'tom_curphey-photoswipe', get_template_directory_uri() . '/photoswipe/photoswipe.js', array('jquery'), '', false );
+	wp_enqueue_script( 'tom_curphey-photoswipe-ui-default.min', get_template_directory_uri() . '/photoswipe/photoswipe-ui-default.min.js', array('jquery'), '', false );
+	wp_enqueue_script( 'tom_curphey-photoswipe-custom', get_template_directory_uri() . '/photoswipe/photoswipe-custom.js', array('jquery'), '', false );
+
+	wp_enqueue_script( 'tom_curphey-custom', get_template_directory_uri() . '/js/tom.js', array(), NULL, false );
 }
 
 add_action( 'wp_enqueue_scripts', 'tom_curphey_js' );
@@ -169,3 +176,141 @@ if ( defined( 'JETPACK__VERSION' ) ) {
 	require get_template_directory() . '/inc/jetpack.php';
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ======================================
+
+// START CUSTOM CODE
+
+// ======================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function get_featured_case_studies(){
+
+	// var_dump($category);
+
+	$args = array(
+		'posts_per_page'   => -1,
+		// 'category'         => $category,
+		'orderby'          => 'name',
+		'order'            => 'ASC',
+		'post_type'        => 'case'
+	);
+	$posts = get_posts( $args );
+
+		// echo '<pre>';
+		// print_r($posts);
+		// echo '</pre>';
+
+	if($posts){
+
+		foreach( $posts as $post ){
+			$post_array = caseQueryToArray($post);
+		}
+	}
+}
+
+function caseQueryToArray($post){
+	$post_data = array();
+	$post_meta = get_post_meta($post->ID, '', true);
+	$args = array(
+		'posts_per_page'   => -1,
+		// 'category'         => $category,
+		'orderby'          => 'ID',
+		'order'            => 'ASC',
+		'post_parent'			 => $post->ID,
+		'post_type'        => 'attachment'
+	);
+	$post_images = get_posts( $args );
+
+	if(!empty($post_meta)){
+		$post_data = array(
+			'case'   			  => $post->post_title,
+			'id'   					=> $post->ID,
+			'url'						=> get_permalink($post->ID),
+			'image'					=> get_the_post_thumbnail_url($post->ID), 
+			'name'					=> $post_meta['case_client_name'][0],
+			'client_url'		=> $post_meta['case_client_url'][0], 
+			'comments'			=> $post_meta['case_client_comments'][0],
+			'info'					=> $post_meta['case_info'][0],
+			'problem'				=> $post_meta['case_problem'][0],
+			'solution'	    => $post_meta['case_solution'][0],
+		);
+		
+		// echo '<pre>';
+		// print_r($post_images);
+		// echo '</pre>';
+
+		if(!empty($post_images)){
+			foreach($post_images as $image){
+				$images[] = array(
+					'image_url' => $image->guid,
+					'title'		=> $image->post_title,
+					'caption'		=> $image->post_excerpt,
+					'content'		=> $image->post_content
+				);
+			}
+		}
+		if(!empty($images)){
+			$post_data['images'] = $images;
+		}
+	}else{
+		$post_data = 0;
+	}
+
+	// echo '<pre>';
+	// print_r($post_data);
+	// echo '</pre>';
+}
+
+function get_case_study($post_id){
+
+	$post = get_post($post_id);
+
+		// echo '<pre>';
+		// print_r($posts);
+		// echo '</pre>';
+
+	if($post){
+		caseQueryToArray($post);
+	}
+}
+
+function convertToList($list){
+	$list = explode(',', $list);
+	shuffle($list);
+	$html = '<ul>';
+	foreach($list as $item) {
+			$html .= '<li>' . $item . '</li>';
+	}
+	$html .= '</ul>';
+
+	echo $html;
+}

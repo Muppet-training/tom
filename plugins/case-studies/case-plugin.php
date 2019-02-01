@@ -1,63 +1,48 @@
 <?php
-// A custom function that calls register_post_type
-function tom_register_dir_post_type() {
+/**
+ * Plugin Name: Case Studies - Tom Curphey
+ * Plugin URI: http://tomcurphey.com
+ * Description: Add Case Study article form guide to Tom Curphey Theme
+ * Author: Xenus
+ * Author URI: http://tomcurphey.com
+ * Version: 0.0.1
+ * Lisence: GPLv2
+ */
 
-  $singluar = 'Case Study'; 
-  $plural   = 'Case Studies';
+ // Exit if accessed directly
+ if(!defined('ABSPATH')){
+   exit;
+ }
 
-  // Set various pieces of text, $labels is used inside the $args array
-  // Set the labels, this variable is used in the $args array
-  $labels = array(
-    'name'               => $plural,
-    'singular_name'      => $singluar,
-    'add_new'            => 'Add New ',
-    'add_new_item'       => 'Add New ' . $singluar,
-    'edit_item'          => 'Edit ' . $singluar,
-    'new_item'           => 'New ' . $singluar,
-    'all_items'          => 'All ' . $plural,
-    'view_item'          => 'View ' . $singluar,
-    'search_items'       => 'Search ' . $plural,
-    'not_found'          => 'No ' .$singluar . ' Found',
-    'featured_image'     => $singluar . ' Image',
-    'set_featured_image' => 'Add ' .$singluar . ' Image',
-    'not_found_in_trash' => 'No ' .$singluar . ' in Trash',
-  );
+ require_once (plugin_dir_path(__FILE__) . 'case-cpt.php');
+ require_once (plugin_dir_path(__FILE__) . 'case-fields.php');
 
-  // Set various pieces of information about the post type
-  $args = array(
-    'labels' => $labels,
-    'public' => true,
-    'description' => 'Custom Case Study Post Type',
-    'publicly_querable'   => true,
-    'exclude_from_search' => false,
-    'show_in_nav_menu'   => true,
-    'show_ui'             => true,
-    'show_in_menu'        => true,
-    'show_in_admin_bar'   => true,
-		'menu_position'       => 4,
-    'menu_icon'           => 'dashicons-store',
-    'can_export'          => true,
-    'delete_with_user'    => false,
-    'hierarchical'        => false,
-    'has_archive'         => true,
-    'query_var'           => true,
-    'capability_type'     => 'page',
-    'map_meta_cap'        => true,
-    'rewrite'             => array(
-      'slug' => 'business',
-      'with_front' => true,
-      'pages' => true,
-      'feeds' => false
-    ),
-    'supports'            => array (
-      'title', 'thumbnail', //'editor', 'author', 'custom-fields', '
-    ),
-    'taxonomies'          => array( 'category')
-  );
+ function tom_admin_enqueue_scripts(){
+    global $pagenow, $typenow;
 
-  // Register the event post type with all the information contained in the $arguments array
-  register_post_type( $singluar, $args );
-}
+    if(($pagenow == 'post.php' || $pagenow == 'post-new.php') && $typenow == 'case'){
+      wp_enqueue_style('tom_admin_css', plugins_url('css/admin_case.css', __FILE__));
+      wp_enqueue_script('tom_admin.js', plugins_url('js/admin_caaase.js', __FILE__), array(), '20181203', false);  
+      wp_enqueue_style('bootstrap-css', 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css');
+      wp_enqueue_style('bootstrap-theme-css', 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css');
+      wp_enqueue_script('bootstrap-js', 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js', array(), '3.3.5', false);
+    } 
+ }
+ add_action('admin_enqueue_scripts', 'tom_admin_enqueue_scripts');
 
- // The custom function MUST be hooked to the init action hook
- add_action( 'init', 'tom_register_dir_post_type' );
+
+
+       // wp_enqueue_script('tom-custom-quicktags', plugins_url('js/custom-quicktags.js', __FILE__), array('quicktags'), '20181203', true);
+      
+
+
+     // wp_enqueue_style('datetimepicker-css', 'https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css');
+      // wp_enqueue_style('jquery-style', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css');
+      
+      // wp_enqueue_script('bootstrap-datepicker-js', 'https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js', array(), '4.17.37', false);
+
+
+
+
+
+

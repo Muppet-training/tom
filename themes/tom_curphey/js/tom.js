@@ -60,42 +60,42 @@ window.addEventListener(
 	'DOMContentLoaded',
 	function(e) {
 		var stage1 = document.getElementById('slideshow1');
-		var fadeComplete = function(e) {
-			stage1.appendChild(arr1[0]);
-		};
-		var arr1 = stage1.getElementsByTagName('li');
-		for (var i = 0; i < arr1.length; i++) {
-			arr1[i].addEventListener(
-				'animationend',
-				fadeComplete,
-				false
-			);
-		}
-
-		var stage2 = document.getElementById('slideshow2');
-		var fadeComplete = function(e) {
-			stage2.appendChild(arr2[0]);
-		};
-		var arr2 = stage2.getElementsByTagName('li');
-		for (var i = 0; i < arr2.length; i++) {
-			arr2[i].addEventListener(
-				'animationend',
-				fadeComplete,
-				false
-			);
-		}
-
-		var stage3 = document.getElementById('slideshow3');
-		var fadeComplete = function(e) {
-			stage3.appendChild(arr3[0]);
-		};
-		var arr3 = stage3.getElementsByTagName('li');
-		for (var i = 0; i < arr3.length; i++) {
-			arr3[i].addEventListener(
-				'animationend',
-				fadeComplete,
-				false
-			);
+		if (stage1 !== null) {
+			var fadeComplete = function(e) {
+				stage1.appendChild(arr1[0]);
+			};
+			var arr1 = stage1.getElementsByTagName('li');
+			for (var i = 0; i < arr1.length; i++) {
+				arr1[i].addEventListener(
+					'animationend',
+					fadeComplete,
+					false
+				);
+			}
+			var stage2 = document.getElementById('slideshow2');
+			var fadeComplete = function(e) {
+				stage2.appendChild(arr2[0]);
+			};
+			var arr2 = stage2.getElementsByTagName('li');
+			for (var i = 0; i < arr2.length; i++) {
+				arr2[i].addEventListener(
+					'animationend',
+					fadeComplete,
+					false
+				);
+			}
+			var stage3 = document.getElementById('slideshow3');
+			var fadeComplete = function(e) {
+				stage3.appendChild(arr3[0]);
+			};
+			var arr3 = stage3.getElementsByTagName('li');
+			for (var i = 0; i < arr3.length; i++) {
+				arr3[i].addEventListener(
+					'animationend',
+					fadeComplete,
+					false
+				);
+			}
 		}
 	},
 	false

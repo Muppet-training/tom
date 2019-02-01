@@ -1,0 +1,10 @@
+.text_input_group label {
+	margin-top: 15px;
+}
+
+.textarea-title {
+	display: inline-block;
+	max-width: 100%;
+	font-weight: 700;
+	margin-top: 15px;
+}
