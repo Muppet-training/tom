@@ -18,7 +18,7 @@ function tom_case_register_post_type() {
     'view_item'          => 'View ' . $singluar,
     'search_items'       => 'Search ' . $plural,
     'not_found'          => 'No ' .$plural . ' Found',
-    'featured_image'     => $singluar . ' Image',
+    'featured_image'     => 'Featured ' . $singluar . ' Image',
     'set_featured_image' => 'Add ' .$singluar . ' Image',
     'not_found_in_trash' => 'No ' .$singluar . ' in Trash',
   );

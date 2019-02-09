@@ -57,15 +57,34 @@ function tom_case_post_class_meta_box( $post ) { ?>
         <label for="case_client_comments">Client Comments</label>
         <input class="form-control" type="text" name="case_client_comments" id="case_client_comments" value="<?php echo esc_attr( get_post_meta( $post->ID, 'case_client_comments', true ) ); ?>"/>
       </li>
+      <li class="text_input_group">
+        <label for="case_engagement">Client Engagement</label>
+        <input class="form-control" type="text" name="case_engagement" id="case_engagement" value="<?php echo esc_attr( get_post_meta( $post->ID, 'case_engagement', true ) ); ?>"/>
+      </li>
+      <li class="text_input_group">
+        <hr/>
+        <label for="case_sales_growth">Sales Growth</label>
+        <input class="form-control" type="text" name="case_sales_growth" id="case_sales_growth" value="<?php echo esc_attr( get_post_meta( $post->ID, 'case_sales_growth', true ) ); ?>"/>
+      </li>
+      <li class="text_input_group">
+        <label for="case_leads">Lead Conversion</label>
+        <input class="form-control" type="text" name="case_leads" id="case_leads" value="<?php echo esc_attr( get_post_meta( $post->ID, 'case_leads', true ) ); ?>"/>
+      </li>
+      <li class="text_input_group">
+        <label for="case_traffic">Website Traffic</label>
+        <input class="form-control" type="text" name="case_traffic" id="case_traffic" value="<?php echo esc_attr( get_post_meta( $post->ID, 'case_traffic', true ) ); ?>"/>
+        <hr/>
+      </li>     
       <li>
+        
         <div class="meta">
           <div class="meta-th">
-            <span class="textarea-title">Background Info</span>
+            <span class="textarea-title">The Challenge</span>
           </div>
           <div class="meta-editor">
             <?php
-            $content  = get_post_meta( $post->ID, 'case_info', true);
-            $editor   = 'case_info';
+            $content  = get_post_meta( $post->ID, 'case_challenge', true);
+            $editor   = 'case_challenge';
             $settings = array(
               'textarea_rows' => 10,
               'media_buttons' => false,
@@ -79,31 +98,31 @@ function tom_case_post_class_meta_box( $post ) { ?>
       <li>
         <div class="meta">
           <div class="meta-th">
-            <span class="textarea-title">The Problem</span>
-          </div>
-          <div class="meta-editor">
-            <?php
-            $content  = get_post_meta( $post->ID, 'case_problem', true);
-            $editor   = 'case_problem';
-            $settings = array(
-              'textarea_rows' => 10,
-              'media_buttons' => false,
-            );
-            wp_editor(
-              $content, $editor, $settings
-            )
-            ?>
-        </div>
-      </li>
-      <li>
-        <div class="meta">
-          <div class="meta-th">
-            <span class="textarea-title">The Solution</span>
+            <span class="textarea-title">Solution</span>
           </div>
           <div class="meta-editor">
             <?php
             $content  = get_post_meta( $post->ID, 'case_solution', true);
             $editor   = 'case_solution';
+            $settings = array(
+              'textarea_rows' => 10,
+              'media_buttons' => false,
+            );
+            wp_editor(
+              $content, $editor, $settings
+            )
+            ?>
+        </div>
+      </li>
+      <li>
+        <div class="meta">
+          <div class="meta-th">
+            <span class="textarea-title">Hindsight</span>
+          </div>
+          <div class="meta-editor">
+            <?php
+            $content  = get_post_meta( $post->ID, 'case_hindsight', true);
+            $editor   = 'case_hindsight';
             $settings = array(
               'textarea_rows' => 10,
               'media_buttons' => false,
@@ -141,14 +160,26 @@ function tom_case_save_meta( $post_id, $post ) {
   if( isset( $_POST['case_client_comments'] )){
     update_post_meta( $post_id, 'case_client_comments', sanitize_text_field( $_POST['case_client_comments']) );
   }
-  if( isset( $_POST['case_info'] )){
-    update_post_meta( $post_id, 'case_info', sanitize_text_field( $_POST['case_info']) );
+  if( isset( $_POST['case_engagement'] )){
+    update_post_meta( $post_id, 'case_engagement', sanitize_text_field( $_POST['case_engagement']) );
   }
-  if( isset( $_POST['case_problem'] )){
-    update_post_meta( $post_id, 'case_problem', sanitize_text_field( $_POST['case_problem']) );
+  if( isset( $_POST['case_sales_growth'] )){
+    update_post_meta( $post_id, 'case_sales_growth', sanitize_text_field( $_POST['case_sales_growth']) );
+  }
+  if( isset( $_POST['case_leads'] )){
+    update_post_meta( $post_id, 'case_leads', sanitize_text_field( $_POST['case_leads']) );
+  }
+  if( isset( $_POST['case_traffic'] )){
+    update_post_meta( $post_id, 'case_traffic', sanitize_text_field( $_POST['case_traffic']) );
+  }
+  if( isset( $_POST['case_challenge'] )){
+    update_post_meta( $post_id, 'case_challenge', $_POST['case_challenge'] );
   }
   if( isset( $_POST['case_solution'] )){
-    update_post_meta( $post_id, 'case_solution', sanitize_text_field( $_POST['case_solution']) );
+    update_post_meta( $post_id, 'case_solution', $_POST['case_solution'] );
+  }
+  if( isset( $_POST['case_hindsight'] )){
+    update_post_meta( $post_id, 'case_hindsight', $_POST['case_hindsight'] );
   }
   
 

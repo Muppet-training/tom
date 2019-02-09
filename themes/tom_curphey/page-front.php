@@ -22,13 +22,15 @@ get_header();
           <p>I enjoy getting to know how you can create value for my company by:</p>
         </div>
         <ul>
-          <li>
+          <li onclick="video_overlay();" >
             <div><p>svg</p></div>
             <h4>Video</h4>
           </li>
           <li>
-            <div><p>svg</p></div>
-            <h4>Written Word</h4>
+            <a href="<?php echo home_url('about#my-story');?>">
+              <div><p>svg</p></div>
+              <h4>Written Word</h4>
+            </a>
           </li>
           <li>
             <div><p>svg</p></div>
@@ -86,94 +88,26 @@ get_header();
       <div class="exit" onclick="video_overlay();">x</div>
       <div class="video">Overlay</div>
     </section>
+
     <section class="clients">
       <h3>Past Clients</h3>
       <div class="clients_wrapper">
-        <ul class="list_wrapper">
-          <li>
-            <ul id="slideshow1">
-              <li>
-                <img src="<?php echo get_template_directory_uri(); ?>/images/tom.jpg)" alt="Introducing Tom Curphey">
-              </li>
-              <li>
-                <img src="<?php echo get_template_directory_uri(); ?>/images/video.png)" alt="Introducing Tom Curphey">
-              </li>
-            </ul>
-          </li>
-          <li>
-            <ul id="slideshow2">
-              <li>
-                <img src="<?php echo get_template_directory_uri(); ?>/images/tom.jpg)" alt="Introducing Tom Curphey">
-              </li>
-              <li>
-                <img src="<?php echo get_template_directory_uri(); ?>/images/video.png)" alt="Introducing Tom Curphey">
-              </li>
-            </ul>
-          </li>
-          <li>
-            <ul id="slideshow3">
-              <li>
-                <img src="<?php echo get_template_directory_uri(); ?>/images/tom.jpg)" alt="Introducing Tom Curphey">
-              </li>
-              <li>
-                <img src="<?php echo get_template_directory_uri(); ?>/images/video.png)" alt="Introducing Tom Curphey">
-              </li>
-            </ul>
-          </li>
-        </ul>
+        <?php getClientLogos(); ?>
       </div>
     </section>
     <section class="case">
         <div class="case_list">
-          
-          <ul>
-            <li>
-             <img src="<?php echo get_template_directory_uri(); ?>/images/video.png)" alt="Introducing Tom Curphey"/>
-             <div>
-               <h3>First Client</h3>
-             </div>
-            </li>
-            <li>
-            <img src="<?php echo get_template_directory_uri(); ?>/images/video.png)" alt="Introducing Tom Curphey"/>
-             <div>
-               <h3>First Client</h3>
-             </div>
-            </li>
-            <li>
-             <img src="<?php echo get_template_directory_uri(); ?>/images/video.png)" alt="Introducing Tom Curphey"/>
-             <div>
-               <h3>First Client</h3>
-             </div>
-            </li>
-            <li>
-            <img src="<?php echo get_template_directory_uri(); ?>/images/video.png)" alt="Introducing Tom Curphey"/>
-             <div>
-               <h3>First Client</h3>
-             </div>
-            </li>
-            <li>
-             <img src="<?php echo get_template_directory_uri(); ?>/images/video.png)" alt="Introducing Tom Curphey"/>
-             <div>
-               <h3>First Client</h3>
-             </div>
-            </li>
-            <li>
-            <img src="<?php echo get_template_directory_uri(); ?>/images/video.png)" alt="Introducing Tom Curphey"/>
-             <div>
-               <h3>First Client</h3>
-             </div>
-            </li>
-          </ul>
+          <?php 
+          echo get_featured_case_studies();
+          ?>
         </div>
     </section>
     <section class="case_wrapper">
-      <h3>Case Studies</h3>
+      <h3>Case Studies</h3> 
       <div></div>
     </section>
 
-    <?php 
-     echo get_featured_case_studies();
-    ?>
+    
   </main>
 <?php
 get_footer();

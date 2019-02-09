@@ -2,6 +2,10 @@
 	margin-top: 15px;
 }
 
+.text_input_group hr {
+	border-top: none;
+}
+
 .textarea-title {
 	display: inline-block;
 	max-width: 100%;

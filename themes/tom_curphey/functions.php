@@ -212,34 +212,219 @@ if ( defined( 'JETPACK__VERSION' ) ) {
 
 
 
-function get_featured_case_studies(){
 
-	// var_dump($category);
+function getClientLogos(){
+	$args = array (
+		'posts_per_page'  => '6',
+		'post_type' 			=> 'case',
+		'orderby'					=> 'date',
+		'order'						=> 'DESC'
+	);
+	$query = new WP_Query( $args );
+	if ( $query->have_posts() ) {
+		$x = 0;
+		foreach($query->posts as $post){
+			$post_data[] = ClientLogosQueryToArray($post);
+			$post_data[$x]['link'] = $post->post_name;
+			$x++;
+		}	
+
+		if($post_data){
+			$c = 1;
+			foreach($post_data as $logo){
+				switch($c){
+					case 1:
+						$logo_1 = '<li><a href="case-study/'.$logo['link'].'"><img src="'.$logo['url'].'" alt="Introducing Tom Curphey"></a></li>';
+					break;
+					case 2:
+						$logo_2 = '<li><a href="case-study/'.$logo['link'].'"><img src="'.$logo['url'].'" alt="Introducing Tom Curphey"></a></li>';
+					break;
+					case 3:
+						$logo_3 = '<li><a href="case-study/'.$logo['link'].'"><img src="'.$logo['url'].'" alt="Introducing Tom Curphey"></a></li>';
+					break;
+					case 4:
+						$logo_4 = '<li><a href="case-study/'.$logo['link'].'"><img src="'.$logo['url'].'" alt="Introducing Tom Curphey"></a></li>';
+					break;
+					case 5:
+						$logo_5 = '<li><a href="case-study/'.$logo['link'].'"><img src="'.$logo['url'].'" alt="Introducing Tom Curphey"></a></li>';
+					break;
+					case 6:
+						$logo_6 = '<li><a href="case-study/'.$logo['link'].'"><img src="'.$logo['url'].'" alt="Introducing Tom Curphey"></a></li>';
+					break;
+				}
+				$c++;
+			}
+
+			$logo_count = count($post_data);
+			switch($logo_count){
+				case 1:
+					?>
+						<ul class="list_wrapper">
+						<li>
+							<ul id="slideshow1">
+								<?php echo $logo_1 ?>
+							</ul>
+						</li>
+						</ul>
+					<?php
+					break;
+				case 2:
+					?>
+						<ul class="list_wrapper">
+						<li>
+							<ul id="slideshow1">
+								<?php echo $logo_1; echo $logo_2; ?>
+							</ul>
+						</li>
+						</ul>
+					<?php
+					break;
+				case 3:
+					?>
+						<ul class="list_wrapper">
+						<li>
+							<ul id="slideshow1">
+								<?php echo $logo_1; echo $logo_2; ?>
+							</ul>
+							<ul id="slideshow2">
+								<?php echo $logo_3; ?>
+							</ul>
+						</li>
+						</ul>
+					<?php
+					break;
+				case 4:
+					?>
+						<ul class="list_wrapper">
+						<li>
+							<ul id="slideshow1">
+								<?php echo $logo_1; echo $logo_2; ?>
+							</ul>
+							<ul id="slideshow2">
+								<?php echo $logo_3; echo $logo_4;?>
+							</ul>
+						</li>
+						</ul>
+					<?php
+					break;
+				case 5:
+					?>
+						<ul class="list_wrapper">
+						<li>
+							<ul id="slideshow1">
+								<?php echo $logo_1; echo $logo_2; ?>
+							</ul>
+							<ul id="slideshow2">
+								<?php echo $logo_3; echo $logo_4; ?>
+							</ul>
+							<ul id="slideshow3">
+								<?php echo $logo_5; ?>
+							</ul>
+						</li>
+						</ul>
+					<?php
+					break;
+				case 5:
+					?>
+						<ul class="list_wrapper">
+						<li>
+							<ul id="slideshow1">
+								<?php echo $logo_1; echo $logo_2; ?>
+							</ul>
+							<ul id="slideshow2">
+								<?php echo $logo_3; echo $logo_4; ?>
+							</ul>
+							<ul id="slideshow3">
+								<?php echo $logo_5; echo $logo_6;?>
+							</ul>
+						</li>
+						</ul>
+					<?php
+					break;
+			}
+		}
+		
+	}
+}
+
+function ClientLogosQueryToArray($post){
+	$args = array(
+		'posts_per_page'   => -1,
+		// 'category'         => $category,
+		'orderby'          => 'ID',
+		'order'            => 'ASC',
+		'post_parent'			 => $post->ID,
+		'post_type'        => 'attachment'
+	);
+	$post_images = get_posts( $args );
+
+	if(!empty($post_images)){
+
+		foreach($post_images as $image){
+			if($image->post_title == 'logo'){
+				$post_data = array(
+					'url' => $image->guid,
+				);
+			}
+		}	
+
+		return $post_data;
+	}
+}
+
+function get_featured_case_studies(){
+		$post_data = FeaturedCaseQueryToArray();
+		echo '<ul>';
+		foreach($post_data as $post){
+		?>
+			<li>
+				<a href="<?php echo $post['url'] ?>">
+					<div class="case_image" style="background-image: url(<?php echo $post['feature_image'] ?>)">
+
+					</div>
+					<div class="case_title">
+						<h3><?php echo $post['case'] ?></h3>
+					</div>
+				</a>
+			</li>	
+		<?php
+		}
+		echo '</ul>';
+}
+
+function FeaturedCaseQueryToArray(){
+	$post_data = array();
 
 	$args = array(
 		'posts_per_page'   => -1,
 		// 'category'         => $category,
-		'orderby'          => 'name',
-		'order'            => 'ASC',
+		'orderby'          => 'ID',
+		'order'            => 'DESC',
 		'post_type'        => 'case'
 	);
+
 	$posts = get_posts( $args );
 
-		// echo '<pre>';
-		// print_r($posts);
-		// echo '</pre>';
-
-	if($posts){
-
-		foreach( $posts as $post ){
-			$post_array = caseQueryToArray($post);
+	if(!empty($posts)){
+		foreach($posts as $post){ 
+			$post_data[] = array(
+				'case'   			  => $post->post_title,
+				'id'   					=> $post->ID,
+				'url'						=> get_permalink($post->ID),
+				'feature_image'	=> get_the_post_thumbnail_url( $post->ID, 'medium' )
+			);
 		}
+	}else{
+		$post_data = 0;
 	}
+	return $post_data;
 }
 
 function caseQueryToArray($post){
 	$post_data = array();
 	$post_meta = get_post_meta($post->ID, '', true);
+	$post_categories = wp_get_post_categories( $post->ID );
+
 	$args = array(
 		'posts_per_page'   => -1,
 		// 'category'         => $category,
@@ -253,53 +438,180 @@ function caseQueryToArray($post){
 	if(!empty($post_meta)){
 		$post_data = array(
 			'case'   			  => $post->post_title,
-			'id'   					=> $post->ID,
+			'id'   					=> $post->ID, 
 			'url'						=> get_permalink($post->ID),
-			'image'					=> get_the_post_thumbnail_url($post->ID), 
 			'name'					=> $post_meta['case_client_name'][0],
 			'client_url'		=> $post_meta['case_client_url'][0], 
 			'comments'			=> $post_meta['case_client_comments'][0],
-			'info'					=> $post_meta['case_info'][0],
-			'problem'				=> $post_meta['case_problem'][0],
+
+			'engagement'		=> $post_meta['case_engagement'][0],
+			'sales'					=> $post_meta['case_sales_growth'][0],
+			'leads'					=> $post_meta['case_leads'][0],
+			'traffic'				=> $post_meta['case_traffic'][0],
+
+			'challenge'			=> $post_meta['case_challenge'][0],
 			'solution'	    => $post_meta['case_solution'][0],
+			'hindsight'	    => $post_meta['case_hindsight'][0],
 		);
 		
-		// echo '<pre>';
-		// print_r($post_images);
-		// echo '</pre>';
-
 		if(!empty($post_images)){
+			$x = 1;
 			foreach($post_images as $image){
-				$images[] = array(
-					'image_url' => $image->guid,
-					'title'		=> $image->post_title,
-					'caption'		=> $image->post_excerpt,
-					'content'		=> $image->post_content
-				);
+				$image_alt = get_post_meta( $image->ID, '_wp_attachment_image_alt', true);
+				// echo '<pre>';
+				// echo print_r($image_alt);
+				// echo '</pre>';
+				if($image->post_title == 'header' || $image_alt == 'header'){
+					$header_image = array(
+						'image_url' => $image->guid,
+						'title'		=> $image->post_title,
+						'caption'		=> $image->post_excerpt,
+						'content'		=> $image->post_content,
+					);
+				}elseif($image->post_title == 'logo' || $image_alt == 'logo'){
+					$logo_image = array(
+						'image_url' => $image->guid,
+						'title'		=> $image->post_title,
+						'caption'		=> $image->post_excerpt,
+						'content'		=> $image->post_content,
+					);
+				}else{
+					$images[] = array(
+						'step' => 'Step ' . $x,
+						'image_url' => $image->guid,
+						'title'		=> $image->post_title,
+						'caption'		=> $image->post_excerpt,
+						'content'		=> $image->post_content,
+					);
+					$x++;
+				}
 			}
 		}
 		if(!empty($images)){
-			$post_data['images'] = $images;
+			$post_data['header_image'] = $header_image;
+		}
+		if(!empty($images)){
+			$post_data['logo_image'] = $logo_image;
+		}
+		if(!empty($images)){
+			$post_data['step_images'] = $images;
+		}
+		if(!empty($post_categories)){
+			foreach($post_categories as $c){
+				$cat = get_category( $c );
+				$cats[] = array( 'name' => $cat->name, 'slug' => $cat->slug );
+			}
+			$post_data['categories'] = $cats;
 		}
 	}else{
 		$post_data = 0;
 	}
-
-	// echo '<pre>';
-	// print_r($post_data);
-	// echo '</pre>';
+	return $post_data;
 }
 
 function get_case_study($post_id){
-
 	$post = get_post($post_id);
-
-		// echo '<pre>';
-		// print_r($posts);
-		// echo '</pre>';
-
 	if($post){
-		caseQueryToArray($post);
+		$post_data =	caseQueryToArray($post);
+		?>
+    <section class="case_header" style="background-image: url(<?php echo $post_data['header_image']['image_url'] ?>);">
+      <?php // get_case_study(get_the_ID()) ?>
+      <div class="title_wrapper">
+        <div class="title_box">
+          <h1><?php echo $post_data['case'] ?></h1>
+        </div>
+      </div>
+		</section>
+		<div class="to_make_the_sticky_menu_work_sad_face">
+      <section class="case_content">
+        <section class="stats"> 
+          <ul>
+					<li>
+              <div class="case_links">
+                <h4><?php if(!empty($post_data['case'])){ echo  $post_data['case']; } ?></h4>
+                <a href="<?php if(!empty($post_data['client_url'])){ echo  $post_data['client_url']; } ?>" target="_blank"><i class="fas fa-link"></i></a>
+              </div>
+              <div class="case_logo" style="background-image: url(<?php echo $post_data['logo_image']['image_url'] ?>);"></div>
+            </li>
+            <li><h4>Engagement</h4><span><?php if(!empty($post_data['engagement'])){ echo  $post_data['engagement']; }?></span></li>
+            <li><h4>Sales Growth</h4><span><?php if(!empty($post_data['sales'])){ echo  $post_data['sales']; }?>%</span></li>
+            <li><h4>Lead Conversion</h4><span><?php if(!empty($post_data['leads'])){ echo  $post_data['leads']; }?>%</span></li>
+            <li><h4>Website Traffic</h4><span><?php if(!empty($post_data['traffic'])){ echo  $post_data['traffic']; }?>%</span></li>
+            <li class="quote"><span>"</span><p><?php if(!empty($post_data['comments'])){ echo  $post_data['comments']; }?></p><span>"</span></li>
+            <li class="topic">
+							<?php
+								if(!empty($post_data['categories'])){
+									foreach($post_data['categories'] as $cat){
+										$slug = $cat['slug'];
+										echo '<a href="' . $slug . '">' . $cat['name'] . '</a>';
+									}
+								}
+							?>
+						</li> 
+          </ul>
+        </section>
+        <div class="content_wrapper">
+          <section class="challenge">
+            <h2>The Challenge</h2>
+						<?php
+							if(!empty($post_data['challenge'])){ echo  $post_data['challenge']; }
+						?>
+          </section>
+          <section class="solution">
+            <h2>Solution</h2>
+            <?php
+							if(!empty($post_data['solution'])){ echo  $post_data['solution']; }
+						?>
+					</section>
+					<!-- This gave me the confidence that I knew he would build the project to the highest standard and that we would were going to work well together! -->
+          <section class="step">
+            <h2>Step By Step</h2>
+						<div class="my-gallery step" itemscope itemtype="http://schema.org/ImageGallery">
+						
+							<?php
+								if(!empty($post_data['step_images'])){
+									$step_count = count($post_data['step_images']);
+									$c = 1;
+									foreach($post_data['step_images'] as $step){
+										?>
+										<figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+											<a href="<?php if(!empty($step['image_url'])){ echo  $step['image_url']; } ?>" itemprop="contentUrl" data-size="1024x1024" class="step">
+											<img src="<?php if(!empty($step['image_url'])){ echo  $step['image_url']; } ?>"  alt="<?php if(!empty($step['step'])){ echo  $step['step']; } ?>">
+											<p class="step"><?php if(!empty($step['caption'])){ echo  $step['caption']; } ?></p>
+											<?php 
+												if($step_count === $c){
+													echo '<p class="next_time">Completion</p>';
+												}
+											?>
+											</a>
+											<figcaption itemprop="caption description" class="details">
+												<div class="details">
+													<div class="step_title">
+														<span><?php if(!empty($step['step'])){ echo  $step['step']; } ?></span>
+														<h3><?php if(!empty($step['title'])){ echo  $step['title']; } ?></h3></div>
+													<?php if(!empty($step['content'])){ convertToList($step['content']); }  ?>
+												</div>
+											</figcaption>                           
+										</figure>
+										<?php
+										$c++;
+									}
+								}
+							?>
+            </div>
+          </section>
+        </div>
+      </section>
+		</div>
+		<section class="hindsight">
+      <h2>Hindsight</h2>
+      <p>What I learned & How I would approach this sistuation differently next time</p>
+			<?php if(!empty($post_data['hindsight'])){ echo  $post_data['hindsight']; } ?>
+    </section>
+
+		<?php
+	}else{
+		echo '<h1>Took a look and couldn\'t find your requests..</h1>';
 	}
 }
 
