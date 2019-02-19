@@ -139,12 +139,17 @@ function tom_curphey_js() {
   wp_enqueue_style( 'photoswipe', get_template_directory_uri() . '/photoswipe/photoswipe.css', array(), '', 'all' );
 	wp_enqueue_style( 'tom_curphey-style', get_stylesheet_uri() );
 
-	
+	 
 	wp_enqueue_script( 'tom_curphey-photoswipe', get_template_directory_uri() . '/photoswipe/photoswipe.js', array('jquery'), '', false );
 	wp_enqueue_script( 'tom_curphey-photoswipe-ui-default.min', get_template_directory_uri() . '/photoswipe/photoswipe-ui-default.min.js', array('jquery'), '', false );
 	wp_enqueue_script( 'tom_curphey-photoswipe-custom', get_template_directory_uri() . '/photoswipe/photoswipe-custom.js', array('jquery'), '', false );
 
 	wp_enqueue_script( 'tom_curphey-custom', get_template_directory_uri() . '/js/tom.js', array(), NULL, false );
+
+	wp_localize_script('tom_curphey-custom', 'voteData', array(
+		 'nonce' => wp_create_nonce('wp_rest'),
+		 'siteURL' => get_site_url() 
+	)); 
 }
 
 add_action( 'wp_enqueue_scripts', 'tom_curphey_js' );
@@ -176,7 +181,12 @@ if ( defined( 'JETPACK__VERSION' ) ) {
 	require get_template_directory() . '/inc/jetpack.php';
 }
 
-
+	// This theme uses wp_nav_menu() in one location.
+	register_nav_menus( array(
+		'tom-menu' => esc_html__( 'Tom Menu', 'tom_curphey' ),
+		'service-menu' => esc_html__( 'Services Menu', 'tom_curphey' ),
+		'case-menu' => esc_html__( 'Case Menu', 'tom_curphey' ), 
+	) );
 
 
 
@@ -198,11 +208,55 @@ if ( defined( 'JETPACK__VERSION' ) ) {
 // ======================================
 
 
+// wp-json/wp/v2/posts
+// Register API route
+add_action( 'rest_api_init', function () {
+  register_rest_route( 'votes/v1', '/update/(?P<id>\d+)', array(
+    'methods' => 'PUT',
+    'callback' => 'handle_update_vote',
+  ) );
+  // register_rest_route( 'votes/v1', '/all', array(
+  //   'methods' => 'GET',
+  //   'callback' => 'handle_get_all',
+  // ) );
+} );
+
+function handle_get_all( $data ) {
+    global $wpdb;
+    $query = "SELECT vote_type, vote_count FROM `wp_votes`";
+    $list = $wpdb->get_results($query);
+    return $list;
+}
+
+function handle_update_vote( $data ) {
+	echo print_r($data);
+	global $wpdb;
+	$query = "UPDATE `wp_votes` SET `vote_count = 5` WHERE `id = 1`";
+	// $list = $wpdb->get_results($query);
+	// return $list;
+}
 
 
 
 
 
+// // Register the new route
+// add_action( 'rest_api_init', function () {
+
+//   register_rest_route( 'example/v2', '/likes/(?P<id>\d+)', array(
+//         'methods' => array('GET','POST'),
+//         'callback' => 'example__like',
+//     ) ); 
+
+// });
+
+// // This is how you setup a callback function to work with your new endpoint
+// function example__like( WP_REST_Request $request ) {
+    
+//         $likes = 20;
+    
+//         return $likes;
+//     }
 
 
 
@@ -363,7 +417,7 @@ function ClientLogosQueryToArray($post){
 		foreach($post_images as $image){
 			if($image->post_title == 'logo'){
 				$post_data = array(
-					'url' => $image->guid,
+					'url' => $img_src_url,
 				);
 			}
 		}	
@@ -392,11 +446,31 @@ function get_featured_case_studies(){
 		echo '</ul>';
 }
 
+function get_related_case_studies(){
+		$post_data = RelatedCaseQueryToArray();
+		echo '<ul>';
+		foreach($post_data as $post){
+		?>
+			<li>
+				<a href="<?php echo $post['url'] ?>">
+					<div class="case_image" style="background-image: url(<?php echo $post['feature_image'] ?>)">
+
+					</div>
+					<div class="case_title">
+						<h3><?php echo $post['case'] ?></h3>
+					</div>
+				</a>
+			</li>	
+		<?php
+		}
+		echo '</ul>';
+}
+
 function FeaturedCaseQueryToArray(){
 	$post_data = array();
 
 	$args = array(
-		'posts_per_page'   => -1,
+		'posts_per_page'   => 6,
 		// 'category'         => $category,
 		'orderby'          => 'ID',
 		'order'            => 'DESC',
@@ -411,7 +485,36 @@ function FeaturedCaseQueryToArray(){
 				'case'   			  => $post->post_title,
 				'id'   					=> $post->ID,
 				'url'						=> get_permalink($post->ID),
-				'feature_image'	=> get_the_post_thumbnail_url( $post->ID, 'medium' )
+				'feature_image'	=> get_the_post_thumbnail_url( $post->ID, 'large' )
+			);
+		}
+	}else{
+		$post_data = 0;
+	}
+	return $post_data;
+}
+
+function RelatedCaseQueryToArray(){
+
+	$post_data = array();
+
+	$args = array(
+		'posts_per_page'   => 6,
+		// 'category'         => $category,
+		'orderby'					 => 'rand',
+    'order'    				 => 'ASC',
+		'post_type'        => 'case'
+	);
+
+	$posts = get_posts( $args );
+
+	if(!empty($posts)){
+		foreach($posts as $post){ 
+			$post_data[] = array(
+				'case'   			  => $post->post_title,
+				'id'   					=> $post->ID,
+				'url'						=> get_permalink($post->ID),
+				'feature_image'	=> get_the_post_thumbnail_url( $post->ID, 'large' )
 			);
 		}
 	}else{
@@ -455,22 +558,35 @@ function caseQueryToArray($post){
 		);
 		
 		if(!empty($post_images)){
+			// echo '<pre>';
+			// print_r($post_images);
+			// echo '</pre>';
 			$x = 1;
 			foreach($post_images as $image){
-				$image_alt = get_post_meta( $image->ID, '_wp_attachment_image_alt', true);
+
+			
+
+				$img_src = wp_get_attachment_image_src($image->ID, 'featured' );
+				$img_src_url = $img_src[0];
+				
 				// echo '<pre>';
+				// print_r($img_src_url);
+				// echo '</pre>';
+
+				$image_alt = get_post_meta( $image->ID, '_wp_attachment_image_alt', true);
+				// echo '<pre> Kalinidi';
 				// echo print_r($image_alt);
 				// echo '</pre>';
 				if($image->post_title == 'header' || $image_alt == 'header'){
 					$header_image = array(
-						'image_url' => $image->guid,
+						'image_url' => $img_src_url,
 						'title'		=> $image->post_title,
 						'caption'		=> $image->post_excerpt,
 						'content'		=> $image->post_content,
 					);
 				}elseif($image->post_title == 'logo' || $image_alt == 'logo'){
 					$logo_image = array(
-						'image_url' => $image->guid,
+						'image_url' => $img_src_url,
 						'title'		=> $image->post_title,
 						'caption'		=> $image->post_excerpt,
 						'content'		=> $image->post_content,
@@ -478,7 +594,7 @@ function caseQueryToArray($post){
 				}else{
 					$images[] = array(
 						'step' => 'Step ' . $x,
-						'image_url' => $image->guid,
+						'image_url' => $img_src_url,
 						'title'		=> $image->post_title,
 						'caption'		=> $image->post_excerpt,
 						'content'		=> $image->post_content,
@@ -487,15 +603,21 @@ function caseQueryToArray($post){
 				}
 			}
 		}
-		if(!empty($images)){
+		if(!empty($header_image)){
 			$post_data['header_image'] = $header_image;
 		}
-		if(!empty($images)){
+		if(!empty($logo_image)){
 			$post_data['logo_image'] = $logo_image;
 		}
 		if(!empty($images)){
 			$post_data['step_images'] = $images;
 		}
+
+		// echo '<pre> header ';
+		// echo print_r($post_data);
+		// echo '</pre>';
+
+
 		if(!empty($post_categories)){
 			foreach($post_categories as $c){
 				$cat = get_category( $c );
@@ -607,7 +729,20 @@ function get_case_study($post_id){
       <h2>Hindsight</h2>
       <p>What I learned & How I would approach this sistuation differently next time</p>
 			<?php if(!empty($post_data['hindsight'])){ echo  $post_data['hindsight']; } ?>
-    </section>
+		</section>
+		<section class="related_cases">
+			<section class="case">
+					<div class="case_list">
+						<?php 
+						echo get_related_case_studies();
+						?>
+					</div>
+			</section>
+			<section class="case_wrapper">
+				<h2>More Case Studies</h2> 
+				<div></div>
+			</section>
+		</section>
 
 		<?php
 	}else{
@@ -616,7 +751,7 @@ function get_case_study($post_id){
 }
 
 function convertToList($list){
-	$list = explode(',', $list);
+	$list = explode('/', $list);
 	shuffle($list);
 	$html = '<ul>';
 	foreach($list as $item) {
@@ -626,3 +761,5 @@ function convertToList($list){
 
 	echo $html;
 }
+
+

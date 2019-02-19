@@ -1,0 +1,15 @@
+[19-Feb-2019 22:51:43 UTC] PHP Notice:  Undefined variable: post_data in /Applications/MAMP/htdocs/tom/wp-content/themes/tom_curphey/functions.php on line 371
+[19-Feb-2019 22:51:43 UTC] PHP Notice:  Undefined variable: post_data in /Applications/MAMP/htdocs/tom/wp-content/themes/tom_curphey/functions.php on line 371
+[19-Feb-2019 22:51:43 UTC] PHP Notice:  Undefined index: url in /Applications/MAMP/htdocs/tom/wp-content/themes/tom_curphey/functions.php on line 246
+[19-Feb-2019 22:51:43 UTC] PHP Notice:  Undefined index: url in /Applications/MAMP/htdocs/tom/wp-content/themes/tom_curphey/functions.php on line 252
+[19-Feb-2019 22:51:43 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function LinkTo() in /Applications/MAMP/htdocs/tom/wp-content/themes/tom_curphey/footer.php:82
+Stack trace:
+#0 /Applications/MAMP/htdocs/tom/wp-includes/template.php(688): require_once()
+#1 /Applications/MAMP/htdocs/tom/wp-includes/template.php(647): load_template('/Applications/M...', true)
+#2 /Applications/MAMP/htdocs/tom/wp-includes/general-template.php(76): locate_template(Array, true)
+#3 /Applications/MAMP/htdocs/tom/wp-content/themes/tom_curphey/page-front.php(113): get_footer()
+#4 /Applications/MAMP/htdocs/tom/wp-includes/template-loader.php(74): include('/Applications/M...')
+#5 /Applications/MAMP/htdocs/tom/wp-blog-header.php(19): require_once('/Applications/M...')
+#6 /Applications/MAMP/htdocs/tom/index.php(17): require('/Applications/M...')
+#7 {main}
+  thrown in /Applications/MAMP/htdocs/tom/wp-content/themes/tom_curphey/footer.php on line 82
