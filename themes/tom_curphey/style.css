@@ -1046,6 +1046,11 @@ section.into_image img {
 }
 @media (min-width: 600px) {
   section.into_image img {
+    height: 70vh;
+  }
+}
+@media (min-width: 1200px) {
+  section.into_image img {
     height: 80vh;
   }
 }

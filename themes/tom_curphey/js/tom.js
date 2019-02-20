@@ -523,8 +523,8 @@ function style_vote(vote) {
 	ourRequest.open(
 		'PUT',
 		// "http://localhost:8888/tom/wp-json/wp/v2/posts"
-		// "http://localhost:8888/tom/wp-json/votes/v1/all"
-		'http://localhost:8888/tom/wp-json/votes/v1/update/1'
+		'http://localhost:8888/tom/wp-json/votes/v1/all'
+		// 'http://localhost:8888/tom/wp-json/votes/v1/update/1'
 	);
 	ourRequest.onload = function() {
 		if (ourRequest.status >= 200 && ourRequest.status < 400) {
