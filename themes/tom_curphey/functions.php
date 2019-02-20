@@ -211,14 +211,14 @@ if ( defined( 'JETPACK__VERSION' ) ) {
 // wp-json/wp/v2/posts
 // Register API route
 add_action( 'rest_api_init', function () {
-  // register_rest_route( 'votes/v1', '/update/(?P<id>\d+)', array(
-  //   'methods' => 'PUT',
-  //   'callback' => 'handle_update_vote',
-  // ) );
-  register_rest_route( 'votes/v1', '/all', array(
-    'methods' => 'GET',
-    'callback' => 'handle_get_all',
+  register_rest_route( 'votes/v1', '/update/(?P<id>\d+)', array(
+    'methods' => 'POST',
+    'callback' => 'handle_update_vote',
   ) );
+  // register_rest_route( 'votes/v1', '/all', array(
+  //   'methods' => 'GET',
+  //   'callback' => 'handle_get_all',
+  // ) );
 } );
 
 function handle_get_all( $data ) {

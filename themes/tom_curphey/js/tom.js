@@ -521,16 +521,16 @@ function style_vote(vote) {
 	var ourRequest = new XMLHttpRequest();
 
 	ourRequest.open(
-		'PUT',
-		// "http://localhost:8888/tom/wp-json/wp/v2/posts"
-		'http://localhost:8888/tom/wp-json/votes/v1/all'
-		// 'http://localhost:8888/tom/wp-json/votes/v1/update/1'
+		'POST',
+		'http://localhost:8888/tom/wp-json/wp/v2/posts'
+		// 'http://localhost:8888/tom/wp-json/votes/v1/all'
+		// 'http://localhost:8888/tom/wp-json/votes/v1/update/6'
 	);
 	ourRequest.onload = function() {
 		if (ourRequest.status >= 200 && ourRequest.status < 400) {
 			console.log(ourRequest.responseText);
 			var data = JSON.parse(ourRequest.responseText);
-			console.log(data);
+			console.log('Data: ', data);
 		} else {
 			console.log(
 				'We Connected to the server, but there was an error'
