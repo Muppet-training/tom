@@ -214,14 +214,26 @@ add_action( 'rest_api_init', function () {
   register_rest_route( 'votes/v1', '/update/(?P<id>\d+)', array(
     'methods' => 'POST',
     'callback' => 'handle_update_vote',
+	) );
+	
+	register_rest_route( 'custom-api', '/login/', array(
+		'methods'  => 'POST',
+		'callback' => 'yk_login',
+)
+);
+  register_rest_route( 'votes/v1', '/all', array(
+    'methods' => 'GET',
+    'callback' => 'handle_get_all',
   ) );
-  // register_rest_route( 'votes/v1', '/all', array(
-  //   'methods' => 'GET',
-  //   'callback' => 'handle_get_all',
-  // ) );
 } );
 
 function handle_get_all( $data ) {
+
+	// function handle_get_all($data){
+    // global $wpdb;
+    // $query = "SELECT user_nicename FROM `wp_users`";
+    // $list = $wpdb->get_results($query);
+
     global $wpdb;
     $query = "SELECT vote_type, vote_count FROM `wp_votes`";
 		$list = $wpdb->get_results($query);
@@ -232,11 +244,14 @@ function handle_get_all( $data ) {
 }
 
 function handle_update_vote( $data ) {
+	echo '<pre>';
 	echo print_r($data);
+	echo '</pre>';
 	global $wpdb;
-	$query = "UPDATE `wp_votes` SET `vote_count = 5` WHERE `id = 1`";
-	// $list = $wpdb->get_results($query);
-	// return $list;
+	$query = "UPDATE `wp_votes` SET `vote_count = 5` WHERE `id = 6`";
+	$list = $wpdb->get_results($query);
+	
+	return $list;
 }
 
 
@@ -657,11 +672,23 @@ function get_case_study($post_id){
                 <a href="<?php if(!empty($post_data['client_url'])){ echo  $post_data['client_url']; } ?>" target="_blank"><i class="fas fa-link"></i></a>
               </div>
               <div class="case_logo" style="background-image: url(<?php echo $post_data['logo_image']['image_url'] ?>);"></div>
-            </li>
-            <li><h4>Engagement</h4><span><?php if(!empty($post_data['engagement'])){ echo  $post_data['engagement']; }?></span></li>
-            <li><h4>Sales Growth</h4><span><?php if(!empty($post_data['sales'])){ echo  $post_data['sales']; }?>%</span></li>
-            <li><h4>Lead Conversion</h4><span><?php if(!empty($post_data['leads'])){ echo  $post_data['leads']; }?>%</span></li>
-            <li><h4>Website Traffic</h4><span><?php if(!empty($post_data['traffic'])){ echo  $post_data['traffic']; }?>%</span></li>
+						</li>
+						
+						<?php if(!empty($post_data['engagement'])){
+							// echo '<pre>';
+							// echo print_r($post_data['sales']);
+							// echo '<pre>';
+							echo "<li><h4>Engagement</h4><span>" .  $post_data['engagement'] . "</span></li>";
+						}?>
+						<?php if(!empty($post_data['sales'])){
+							echo "<li><h4>Sales Growth</h4><span>" .  $post_data['sales'] . "%</span></li>";
+						}?>
+						<?php if(!empty($post_data['leads'])){
+							echo "<li><h4>Sales Growth</h4><span>" .  $post_data['leads'] . "%</span></li>";
+						}?>
+						<?php if(!empty($post_data['traffic'])){
+							echo "<li><h4>Sales Growth</h4><span>" .  $post_data['traffic'] . "%</span></li>";
+						}?>
             <li class="quote"><span>"</span><p><?php if(!empty($post_data['comments'])){ echo  $post_data['comments']; }?></p><span>"</span></li>
             <li class="topic">
 							<?php

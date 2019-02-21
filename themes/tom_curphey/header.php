@@ -46,13 +46,11 @@
 	<section id="left" class="left_menu" >
 		<ul>
 			<li>
-				<a href="<?php echo home_url('/#contact');?>">
-					<div><img src="<?php echo get_template_directory_uri(); ?>/images/footer80.png)" alt="Introducing Tom Curphey"></div>
+				<a href="<?php echo home_url('/#services');?>">
+					<div><img src="<?php echo get_template_directory_uri(); ?>/images/case80.png)" alt="Introducing Tom Curphey"></div>
 					<div>
-						<h4>Contact</h4>
-						<p>Reach out & connect with me</p>
-						<p>tom@tomcurphey.com</p>
-						<p>0428 438 348</p>
+						<h4>Head Home</h4>
+						<p>Home page is an overview of Tom Curphey</p>
 					</div>
 				</a>
 			</li>
@@ -83,6 +81,17 @@
 					</div>
 				</a>
 			</li>
+			<li>
+				<a href="<?php echo home_url('/#contact');?>">
+					<div><img src="<?php echo get_template_directory_uri(); ?>/images/footer80.png)" alt="Introducing Tom Curphey"></div>
+					<div>
+						<h4>Contact</h4>
+						<p>Reach out & connect with me</p>
+						<p>tom@tomcurphey.com</p>
+						<p>0428 438 348</p>
+					</div>
+				</a>
+			</li>
 			<!-- <li>
 				<div><img src="<?php //echo get_template_directory_uri(); ?>/images/tom.jpg)" alt="Introducing Tom Curphey"></div>
 				<div>
@@ -103,9 +112,10 @@
 		<div class="right_menu_header">
 			<h3>PROFILE<br/>STATS</h3>
 			<div>
-				<img src="<?php echo get_template_directory_uri(); ?>/images/tom.jpg)" alt="Introducing Tom Curphey">
+				<img src="<?php echo get_template_directory_uri(); ?>/images/game.png)" alt="Introducing Tom Curphey">
 			</div>
 		</div>
+		<div class="close_view"><span onclick="display_menu('close');" class="exit">EXIT</span><a href="<?php echo home_url('/#services');?>"><span onclick="display_menu('close');" class="continue">CONTINUE</span></a></div>
 		<ul>
 			<li>
 				TEAM PLAYER

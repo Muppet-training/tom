@@ -48,7 +48,7 @@ window.addEventListener(
 );
 function display_menu(side) {
 	var main_body = document.querySelector('#content');
-	console.log(main_body);
+
 	if (side === 'left') {
 		if (main_body.classList.contains('show_left_menu')) {
 			// alert('yes');
@@ -57,7 +57,12 @@ function display_menu(side) {
 			// alert('no');
 			main_body.classList.add('show_left_menu');
 		}
-
+		if (
+			main_body.classList.contains('show_right_menu_from_page')
+		) {
+			// alert('yes');
+			main_body.classList.remove('show_right_menu_from_page');
+		}
 		if (main_body.classList.contains('show_right_menu')) {
 			main_body.classList.remove('show_right_menu');
 		}
@@ -68,21 +73,59 @@ function display_menu(side) {
 			main_body.classList.remove('show_right_menu');
 		} else {
 			// alert('no');
-			main_body.classList.add('show_right_menu');
+			if (
+				main_body.classList.contains(
+					'show_right_menu_from_page'
+				)
+			) {
+				// alert('yes');
+				main_body.classList.remove(
+					'show_right_menu_from_page'
+				);
+			} else {
+				main_body.classList.add('show_right_menu');
+			}
 		}
+		console.log(main_body);
+
 		if (main_body.classList.contains('show_left_menu')) {
 			main_body.classList.remove('show_left_menu');
 		}
 	}
+	if (side === 'overview') {
+		if (
+			main_body.classList.contains('show_right_menu_from_page')
+		) {
+			main_body.classList.remove('show_right_menu_from_page');
+		} else {
+			main_body.classList.add('show_right_menu_from_page');
+		}
+		console.log(main_body);
+	}
+	if (side === 'close') {
+		if (
+			main_body.classList.contains('show_right_menu_from_page')
+		) {
+			main_body.classList.remove('show_right_menu_from_page');
+		}
+		if (main_body.classList.contains('show_right_menu')) {
+			main_body.classList.remove('show_right_menu');
+		}
+	}
 }
 
-function getParent(event) {
-	var main_body = this.parentNode.parentNode.parentNode.parentNode
-		.parentNode;
-	main_body.display_menu('right');
-	// main_body.classList.add("show_right_menu");
-	console.log(main_body);
-}
+// function getParent(event) {
+// 	var main_body = this.parentNode.parentNode.parentNode.parentNode
+// 		.parentNode;
+// 	main_body.display_menu('right');
+// 	// main_body.classList.add("show_right_menu");
+// 	console.log(main_body);
+// }
+
+// function ChangeParent() {
+// 	parent = document.getElementById('parent');
+// 	parent.style.backgroundColor = 'blue';
+// }
 
 function video_overlay() {
 	const overlay = document.getElementById('video_overlay');
@@ -457,6 +500,56 @@ document.addEventListener(
 	false
 );
 
+function submitVote(e, id) {
+	e.preventDefault();
+	alert('hello');
+}
+
+document.addEventListener(
+	'DOMContentLoaded',
+	function() {
+		const button = document.querySelector('#overview');
+		button.addEventListener('click', (event) => {
+			event.preventDefault();
+
+			display_menu('overview');
+
+			// var ourRequest = new XMLHttpRequest();
+
+			// ourRequest.open(
+			// 	'POST',
+			// 	'http://localhost:8888/tom/wp-json/votes/v1/update'
+			// );
+			// ourRequest.onload = function() {
+			// 	if (
+			// 		ourRequest.status >= 200 &&
+			// 		ourRequest.status < 400
+			// 	) {
+			// 		console.log(ourRequest.responseText);
+			// 		var data = JSON.parse(ourRequest.responseText);
+			// 		console.log('Data: ', data);
+			// 	} else {
+			// 		console.log(
+			// 			'We Connected to the server, but there was an error'
+			// 		);
+			// 	}
+			// };
+			// ourRequest.setRequestHeader(
+			// 	'Content-type',
+			// 	'application/json',
+			// 	'charset=UTF-8'
+			// );
+
+			// ourRequest.onerror = function() {
+			// 	console.log('Connection Error');
+			// };
+
+			// ourRequest.send({ id: 6 });
+		});
+	},
+	false
+);
+
 function style_vote(vote) {
 	var speak_votes = parseFloat(
 		document.getElementById('speak_votes').innerHTML
@@ -522,9 +615,9 @@ function style_vote(vote) {
 
 	ourRequest.open(
 		'POST',
-		'http://localhost:8888/tom/wp-json/wp/v2/posts'
+		// "http://localhost:8888/tom/wp-json/wp/v2/posts"
 		// 'http://localhost:8888/tom/wp-json/votes/v1/all'
-		// 'http://localhost:8888/tom/wp-json/votes/v1/update/6'
+		'http://localhost:8888/tom/wp-json/votes/v1/update/6'
 	);
 	ourRequest.onload = function() {
 		if (ourRequest.status >= 200 && ourRequest.status < 400) {

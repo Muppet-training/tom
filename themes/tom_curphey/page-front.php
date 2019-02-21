@@ -19,8 +19,9 @@ get_header();
           <h3>The best communicators change their pitch with context about their audience</h3>
         </div>
         <div class="sub_title">
-          <p>I enjoy getting to know how you can create value for my company by:</p>
+          <p>I'd like to get to know you by:</p>
         </div>
+        <form onSubmit="http://localhost:8888/tom/wp-json/votes/v1/update/6" method="POST">
         <ul>
           <li id="web" onclick="smoothContactScroll(document.getElementById('contact'))">
             <div class="circle">
@@ -71,18 +72,18 @@ get_header();
             <h4>Resume</h4>
             </a>
           </li>
-          <li id="web" onclick="style_vote('overview');">
+          <li>
             <!-- onclick="getParent.call(this,event)"> -->
-            <div class="circle">
+            <button id="overview" class="circle" type="submit" value="overview">
               <svg class="svg_icon">
                 <use xlink:href="<?php echo get_template_directory_uri(); ?>/images/sprite.svg#align" />
               </svg>
               <div class="percentage"><p id="overview" >14</p><span>%</span><span id="overview_votes">12</span></div>
-            </div>
-            <h4>Overview & Glance</h4>
+            </button>
+            <h4>Glance At Skills</h4>
           </li>
-          
         </ul>
+        </form>
       </div>
       <div id="new_text"></div>
     </section>
@@ -92,7 +93,7 @@ get_header();
           <h3>I’m a problem solver,</br>Who loves developing business models</h3>
         </div>
         <div class="video_link"  onclick="video_overlay();">
-          <i class="fab fa-youtube"></i>
+          <i class="fab fa-youtube" onclick="video_overlay();"></i>
         </div>
 
         <div class="intro">
@@ -175,7 +176,7 @@ get_header();
           </li>
           <li>
             <div>
-              <a href="mailto::tom@tomcurphey.com" target="_blank">
+              <a href="mailto::mail@tomcurphey.com" target="_blank">
                 <svg class="svg_icon">
                   <use xlink:href="<?php echo get_template_directory_uri(); ?>/images/sprite.svg#arroba" />
                 </svg>
@@ -183,7 +184,7 @@ get_header();
             </div>
             <div>
               <a href="mailto::tom@tomcurphey.com" target="_blank">  
-                tom@tomcurphey.com
+                mail@tomcurphey.com
               </a>
             </div>
           </li>
@@ -220,13 +221,17 @@ get_header();
     <section class="services">
       <div class="inner_services">
         <h2>Services</h2>
-        <ul>
+        <ul class="list_services">
           <!-- <li id="web" onclick="smoothDevScroll(document.getElementById('contact'))"> -->
           <li id="web-developer-service" onclick="smoothServiceScroll(document.getElementById('contact'), 'dev')">
-            <div style="background-image: url(<?php echo get_template_directory_uri(); ?>/images/dev300.png);"></div>
+            <div style="background-image: url(<?php echo get_template_directory_uri(); ?>/images/webdev.png);"></div>
             <div>
               <h4>Web Developer</h4>
-              <p>A website is your opportunity to communicate your message globally, I design sites from front to back, to optimse the user engagement.</p>
+              <ul class="web_list">
+                <li><p>A website is your opportunity to communicate your message globally</p></li>
+                <li><p>I love to understand your business model first so I can design the site around your key brand messages</p></li>
+                <li><p>Front end development is my foundation as I move towards a javascript fullstack skillset</p></li>
+              </ul>             
             </div>
           </li>
           <li id="sales-funnel-conversion-service" onclick="smoothServiceScroll(document.getElementById('contact'), 'funnel')">

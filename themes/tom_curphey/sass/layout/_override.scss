@@ -124,6 +124,24 @@ Structure
 ----------
 */
 
+.test {
+	margin-top: 40px;
+}
+
+.parent {
+	height: 400px;
+	width: 100%;
+	background-color: orange;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	div {
+		background-color: #fff;
+		padding: 20px 40px;
+	}
+}
+
 @mixin text-underline-crop($background) {
 	text-shadow: .03em 0 $background, -.03em 0 $background,
 		0 .03em $background, 0 -.03em $background, .06em 0 $background,
@@ -213,6 +231,7 @@ div.show_left_menu {
 	}
 }
 
+div.show_right_menu_from_page,
 div.show_right_menu {
 	section.right_menu {
 		display: block;
@@ -306,10 +325,34 @@ section.right_menu {
 	z-index: 1;
 	overflow-y: scroll;
 
+	div.close_view {
+		span {
+			position: absolute;
+			top: 107px;
+			padding: 3px 8px;
+
+			border-radius: 2px;
+			width: fit-content;
+			color: #fff;
+			font-weight: bold;
+			font-family: 'Iceberg', cursive;
+			-webkit-font-smoothing: antialiased;
+			cursor: pointer;
+		}
+		span.exit {
+			background-color: rgba(237, 125, 43, 0.9);
+		}
+		span.continue {
+			background-color: $colour_primary_dark;
+			left: 60px;
+		}
+	}
+
 	div.right_menu_header {
 		display: flex;
 		height: 100px;
 		align-items: center;
+		margin-bottom: 40px;
 		h3 {
 			justify-self: left;
 			width: 50%;
@@ -503,6 +546,7 @@ section.style {
 
 		li {
 			cursor: pointer;
+			button.circle,
 			div.circle {
 				background-color: $colour_secondary;
 				border: 2px solid $colour-white;
@@ -513,6 +557,7 @@ section.style {
 				align-items: center;
 				justify-content: center;
 				position: relative;
+				cursor: pointer;
 				i {
 					color: $colour-white;
 					font-size: 60px;
@@ -997,6 +1042,13 @@ section.case_wrapper {
 			margin-top: -670px;
 			height: 621px;
 		}
+	}
+}
+
+section.related_cases {
+	margin-bottom: 150px;
+	section.case {
+		margin-top: 0px;
 	}
 }
 
@@ -1840,19 +1892,54 @@ section.services {
 			font-weight: 400;
 		}
 
-		ul {
+		#web-developer-service {
+			grid-area: web;
+		}
+		#sales-funnel-conversion-service {
+			grid-area: funnel;
+		}
+		#brand-and-marketing-service {
+			grid-area: brand;
+		}
+		#project-manager-service {
+			grid-area: project;
+		}
+		#content-creation-service {
+			grid-area: content;
+		}
+		#sales-and-advertising-service {
+			grid-area: ads;
+		}
+		#business-model-consultant-service {
+			grid-area: model;
+		}
+		#print-media-design-service {
+			grid-area: print;
+		}
+
+		ul.list_services {
 			display: grid;
 			margin: auto;
 			grid-gap: 30px;
 			margin-top: 80px;
 			grid-template-columns: 300px;
+			grid-template-rows: 450px repeat(8, auto);
+			grid-template-areas: 'web' 'web' 'funnel''brand' 'project''ads'
+				'content''print' 'model';
+
 			width: 300px;
 			@media (min-width: 660px) {
 				grid-template-columns: repeat(2, 300px);
+				grid-template-rows: 370px repeat(4, auto);
+				grid-template-areas: 'web web' 'funnel brand'
+					'project ads' 'content print' 'model ...';
 				width: 630px;
 			}
 			@media (min-width: 990px) {
 				grid-template-columns: repeat(3, 300px);
+				grid-template-rows: repeat(3, auto);
+				grid-template-areas: 'web web funnel'
+					'brand project ads' 'content print model';
 				width: 960px;
 			}
 
@@ -1885,42 +1972,18 @@ section.services {
 						font-weight: 200;
 					}
 				}
+
+				ul.web_list {
+					padding-left: 20px;
+					li {
+						box-shadow: none;
+						list-style-type: disc;
+						display: list-item;
+						margin-bottom: 10px;
+					}
+				}
 			}
 		}
-
-		// ul {
-		// 	margin-top: 50px;
-		// 	display: grid;
-		// 	grid-template-columns: repeat(3, auto);
-		// 	grid-gap: 40px;
-		// }
-		// li {
-		// 	display: flex;
-		// 	align-items: center;
-		// 	justify-content: center;
-
-		// 	div {
-		// 		width: 250px;
-		// 		height: 250px;
-		// 		border-radius: 50%;
-		// 		background-color: $colour_secondary;
-		// 		border: 1px solid $colour-white;
-		// 		display: flex;
-		// 		align-items: center;
-		// 		justify-content: center;
-		// 		position: relative;
-		// 		svg {
-		// 			fill: $colour_secondary-80-full;
-		// 		}
-		// 		span {
-		// 			position: absolute;
-		// 			text-align: center;
-		// 			font-size: 30px;
-		// 			font-weight: 400;
-		// 			color: #fff;
-		// 		}
-		// 	}
-		// }
 	}
 }
 

@@ -11,7 +11,7 @@ get_header();
           <div onclick="video_overlay();" class="inner_video" style="background-image: url(<?php echo get_template_directory_uri(); ?>/images/about.jpg);">
           
           </div>
-          <i class="fab fa-youtube"></i>
+          <i class="fab fa-youtube" onclick="video_overlay();"></i>
         </div>
         <div class="intro">
           <h1>About Tom Curphey</h1>
@@ -146,7 +146,7 @@ get_header();
         <li>Adapt || Die</li>
         <li>Consistency > Intensity</li>
         <li>I'm a cheap Heart Surgeon</li>
-        <li>Idea Killer</li>
+        <li>Idea Challenger</li>
       </ul>
     </section>
   </main>

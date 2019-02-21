@@ -822,6 +822,21 @@ nav li:last-child {
  Structure
  ----------
  */
+.test {
+  margin-top: 40px;
+}
+.parent {
+  height: 400px;
+  width: 100%;
+  background-color: orange;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.parent div {
+  background-color: #fff;
+  padding: 20px 40px;
+}
 main {
   width: 100%;
   min-height: 100%;
@@ -854,7 +869,7 @@ div.show_left_menu section.left_menu {
     -moz-transform: translateX(0);
   }
 }
-div.show_right_menu section.right_menu {
+div.show_right_menu_from_page section.right_menu, div.show_right_menu section.right_menu {
   display: block;
   -webkit-animation: slide-left 0.3s ease-in;
   -moz-animation: slide-left 0.3s ease-in;
@@ -938,10 +953,30 @@ section.right_menu {
   z-index: 1;
   overflow-y: scroll;
 }
+section.right_menu div.close_view span {
+  position: absolute;
+  top: 107px;
+  padding: 3px 8px;
+  border-radius: 2px;
+  width: fit-content;
+  color: #fff;
+  font-weight: bold;
+  font-family: 'Iceberg', cursive;
+  -webkit-font-smoothing: antialiased;
+  cursor: pointer;
+}
+section.right_menu div.close_view span.exit {
+  background-color: rgba(237, 125, 43, 0.9);
+}
+section.right_menu div.close_view span.continue {
+  background-color: #459075;
+  left: 60px;
+}
 section.right_menu div.right_menu_header {
   display: flex;
   height: 100px;
   align-items: center;
+  margin-bottom: 40px;
 }
 section.right_menu div.right_menu_header h3 {
   justify-self: left;
@@ -1141,7 +1176,7 @@ section.style ul {
 section.style ul li {
   cursor: pointer;
 }
-section.style ul li div.circle {
+section.style ul li button.circle, section.style ul li div.circle {
   background-color: #ed7d2b;
   border: 2px solid #fff;
   height: 150px;
@@ -1151,8 +1186,9 @@ section.style ul li div.circle {
   align-items: center;
   justify-content: center;
   position: relative;
+  cursor: pointer;
 }
-section.style ul li div.circle i {
+section.style ul li button.circle i, section.style ul li div.circle i {
   color: #fff;
   font-size: 60px;
 }
@@ -1644,6 +1680,12 @@ section.case_wrapper div {
     margin-top: -670px;
     height: 621px;
   }
+}
+section.related_cases {
+  margin-bottom: 150px;
+}
+section.related_cases section.case {
+  margin-top: 0px;
 }
 /* 
  ---------- 
@@ -2414,27 +2456,57 @@ section.services div.inner_services h2 {
   color: #fff;
   font-weight: 400;
 }
-section.services div.inner_services ul {
+section.services div.inner_services #web-developer-service {
+  grid-area: web;
+}
+section.services div.inner_services #sales-funnel-conversion-service {
+  grid-area: funnel;
+}
+section.services div.inner_services #brand-and-marketing-service {
+  grid-area: brand;
+}
+section.services div.inner_services #project-manager-service {
+  grid-area: project;
+}
+section.services div.inner_services #content-creation-service {
+  grid-area: content;
+}
+section.services div.inner_services #sales-and-advertising-service {
+  grid-area: ads;
+}
+section.services div.inner_services #business-model-consultant-service {
+  grid-area: model;
+}
+section.services div.inner_services #print-media-design-service {
+  grid-area: print;
+}
+section.services div.inner_services ul.list_services {
   display: grid;
   margin: auto;
   grid-gap: 30px;
   margin-top: 80px;
   grid-template-columns: 300px;
+  grid-template-rows: 450px repeat(8, auto);
+  grid-template-areas: 'web' 'web' 'funnel' 'brand' 'project' 'ads' 'content' 'print' 'model';
   width: 300px;
 }
 @media (min-width: 660px) {
-  section.services div.inner_services ul {
+  section.services div.inner_services ul.list_services {
     grid-template-columns: repeat(2, 300px);
+    grid-template-rows: 370px repeat(4, auto);
+    grid-template-areas: 'web web' 'funnel brand' 'project ads' 'content print' 'model ...';
     width: 630px;
   }
 }
 @media (min-width: 990px) {
-  section.services div.inner_services ul {
+  section.services div.inner_services ul.list_services {
     grid-template-columns: repeat(3, 300px);
+    grid-template-rows: repeat(3, auto);
+    grid-template-areas: 'web web funnel' 'brand project ads' 'content print model';
     width: 960px;
   }
 }
-section.services div.inner_services ul li {
+section.services div.inner_services ul.list_services li {
   width: 100%;
   margin: 0 auto;
   background-color: #fff;
@@ -2442,7 +2514,7 @@ section.services div.inner_services ul li {
   border-radius: 10px;
   cursor: pointer;
 }
-section.services div.inner_services ul li div:first-child {
+section.services div.inner_services ul.list_services li div:first-child {
   height: 140px;
   width: 100%;
   background-position: center;
@@ -2450,17 +2522,26 @@ section.services div.inner_services ul li div:first-child {
   background-repeat: no-repeat;
   border-radius: 10px 10px 0px 0px;
 }
-section.services div.inner_services ul li div:last-child {
+section.services div.inner_services ul.list_services li div:last-child {
   width: 100%;
   padding: 20px;
 }
-section.services div.inner_services ul li div:last-child h4 {
+section.services div.inner_services ul.list_services li div:last-child h4 {
   font-weight: 400;
   margin-bottom: 20px;
 }
-section.services div.inner_services ul li div:last-child p {
+section.services div.inner_services ul.list_services li div:last-child p {
   font-size: 15px;
   font-weight: 200;
+}
+section.services div.inner_services ul.list_services li ul.web_list {
+  padding-left: 20px;
+}
+section.services div.inner_services ul.list_services li ul.web_list li {
+  box-shadow: none;
+  list-style-type: disc;
+  display: list-item;
+  margin-bottom: 10px;
 }
 /* 
  ---------- 
